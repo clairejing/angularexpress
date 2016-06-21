@@ -15,14 +15,15 @@ let requestTime = function(req, res, next){
   next();
 }
 
+app.set('views', './views');
+app.set('view engine', 'pug');
+
 app.use(cookieParser());
 app.use(requestTime);
 
 app.use(mylogger);
 app.get('/', (req, res) =>{
-  let responseText = 'Hello World!<br>';
-  responseText += '<small>Requested at: ' + req.requestTime + '</small>';
-  res.send(responseText)
+   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 
 app.use('/index', routes);
