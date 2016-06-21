@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 let routes = require('./routes/index.js');
 let users = require('./routes/users.js');
+let cookieParser = require('cookie-parser');
 
 
 let mylogger = function (req, res, next) {
@@ -14,9 +15,7 @@ let requestTime = function(req, res, next){
   next();
 }
 
-app.set('views', './views');
-app.set('view engine', 'pug');
-
+app.use(cookieParser());
 app.use(requestTime);
 
 app.use(mylogger);
