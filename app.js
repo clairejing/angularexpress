@@ -4,6 +4,24 @@ let routes = require('./routes/index.js');
 let users = require('./routes/users.js');
 let cookieParser = require('cookie-parser');
 
+let MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect('mongodb://localhost:27017/animals', (err, db) => {
+  if(err){
+    throw err;
+  }
+
+  db.collection('mammals').find().toArray(function(err, result) {
+    if (err) {
+      throw err;
+    }
+    console.log(result);
+  });
+});
+
+let mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/my_database');
+
 
 let mylogger = function (req, res, next) {
   console.log("logged");
