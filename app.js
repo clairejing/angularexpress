@@ -4,7 +4,12 @@ let routes = require('./routes/index.js');
 let users = require('./routes/users.js');
 let cookieParser = require('cookie-parser');
 
-let MongoClient = require('mongodb').MongoClient;
+let path = require('path');
+
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, '/')));
+
+/*let MongoClient = require('mongodb').MongoClient;
 
 MongoClient.connect('mongodb://localhost:27017/animals', (err, db) => {
   if(err){
@@ -17,10 +22,10 @@ MongoClient.connect('mongodb://localhost:27017/animals', (err, db) => {
     }
     console.log(result);
   });
-});
+});*/
 
-let mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/my_database');
+/*let mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/my_database');*/
 
 
 let mylogger = function (req, res, next) {
@@ -34,7 +39,7 @@ let requestTime = function(req, res, next){
 }
 
 app.set('views', './views');
-app.set('view engine', 'pug');
+// app.set('view engine', 'pug');
 
 app.use(cookieParser());
 app.use(requestTime);
@@ -44,7 +49,10 @@ app.get('/', (req, res) =>{
    res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 
-app.use('/index', routes);
+app.get('/index', (req, res) => {
+  res.send('index');
+});
+
 app.use('/users', users);
 
 app.use((err, req, res, next) => {
@@ -52,7 +60,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something wrong!');
 });
 
-app.use(logErrors);
+/*app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
 
@@ -83,7 +91,7 @@ app.get('/a_route_behind_paywall', (req, res, next) => {
       if(err) return next(err);
       res.json(doc);
     });
-});
+});*/
 
 app.listen(3000, () => {
   console.log('Listen at port 3000!');
